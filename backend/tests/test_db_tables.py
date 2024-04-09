@@ -47,6 +47,25 @@ class TestServerTables(unittest.TestCase):
 
         # Parse the JSON data and verify the content
         response_data = json.loads(data)
+    
+    def test_get_available_tables_method(self):
+        # Connect to the server and send a GET request
+        connection = http.client.HTTPConnection(*self.server_address) 
+        connection.request('GET', '/tables/available?capacity=4&date=2024-12-21&time=20:30:00')
+        response = connection.getresponse()
+
+        # Read and Decode the response
+        data = response.read().decode()
+        connection.close()
+
+        #check That the response as expected
+        self.assertEqual(response.status, 200)
+        self.assertEqual(response.reason, 'OK')
+        self.assertEqual(response.getheader('Content-Type'), 'application/json')
+
+        # Parse the JSON data and verify the content
+        response_data = json.loads(data)
+        print(data)
 
     def test_insert_table(self):
         # Connect to the server and send a POST request to insert a table record

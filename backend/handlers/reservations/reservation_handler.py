@@ -18,6 +18,9 @@ def handle_get_reservations(request_handler):
             reservation['ReservationDateTime'] = reservation['ReservationDateTime'].isoformat()
 
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps(reservation).encode()
@@ -37,6 +40,9 @@ def handle_get_reservations(request_handler):
             for record in records:
                 record['ReservationDateTime'] = record['ReservationDateTime'].isoformat()
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps(records).encode()
@@ -60,6 +66,9 @@ def handle_post_reservations(request_handler):
             response = json.dumps({"error": error}).encode()
         else:
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps({"message": "Reservation inserted successfully", "ReservationID": reservation_id}).encode()
@@ -89,6 +98,9 @@ def handle_put_reservations(request_handler):
             response = json.dumps({"error": error}).encode()
         else:
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps({"message": "Reservation updated successfully"}).encode()
@@ -100,6 +112,9 @@ def handle_put_reservations(request_handler):
             response = json.dumps({"error": error}).encode()
         else:
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps({"message": "Reservation status updated successfully"}).encode()
@@ -118,6 +133,9 @@ def handle_delete_reservations(request_handler):
         response = json.dumps({"error": error}).encode()
     else:
         request_handler.send_response(200)
+        request_handler.send_header('Access-Control-Allow-Origin', '*')
+        request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+        request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
         request_handler.send_header('Content-type', 'application/json')
         request_handler.end_headers()
         response = json.dumps({"message": "Reservation deleted successfully"}).encode()

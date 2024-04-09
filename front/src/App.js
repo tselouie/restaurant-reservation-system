@@ -42,8 +42,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/reserve" element={<ReservationPage />} />
-              <Route path="/users" element={<UsersPage />} />
+              <Route path="/reservations" element={<ReservationPage />} />
+              <Route path="/customers" element={<UsersPage />} />
             </Routes>
           </Router>
           <Copyright sx={{ pt: 4 }} />

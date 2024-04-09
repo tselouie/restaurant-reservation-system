@@ -16,6 +16,38 @@ def get_tables():
     except Error as e:
         print(e)
         return None, str(e)
+def get_available_tables(capacity, date,time):
+    try:
+        conn = db_connection()
+        cursor = conn.cursor(dictionary=True)
+        date_time = date + ' ' + time
+        print('date_time',date_time)
+        print('capacity',capacity)
+        query ="""
+            SELECT t.*
+            FROM Tables AS t
+            LEFT JOIN Reservations AS r ON t.TableID = r.TableID
+                AND r.ReservationDateTime = %s
+            WHERE r.ReservationID IS NULL 
+            AND t.Capacity = %s 
+            AND t.TableID NOT IN (
+        SELECT TableID 
+        FROM Reservations 
+        WHERE ReservationDateTime BETWEEN DATE_ADD(%s, INTERVAL -2 HOUR) 
+        AND DATE_ADD(%s, INTERVAL 2 HOUR)
+    );
+        """
+        cursor.execute(query,(date_time, capacity,date_time,date_time))
+        records = cursor.fetchall()
+        print(query)
+        print('records')
+        print(records)
+        cursor.close()
+        conn.close()
+        return records, None
+    except Error as e:
+        print(e)
+        return None, str(e)
 
 def insert_table(table_number, capacity):
     try:
@@ -159,7 +191,7 @@ def delete_reservation_by_id(reservation_id):
 def get_customers():
     try:
         conn = db_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM Customers")
         records = cursor.fetchall()
         cursor.close()
@@ -176,12 +208,19 @@ def insert_customer(name, email, phone):
         query = "INSERT INTO Customers (Name, Email, Phone) VALUES (%s, %s, %s)"
         cursor.execute(query, (name, email, phone))
         conn.commit()
-        cursor.close()
-        conn.close()
-        return cursor.lastrowid, None  # Return the last inserted ID
+       
+        customer_id = cursor.lastrowid # Return the last inserted ID
     except Error as e:
         print(e)
-        return None, str(e)
+        if 'duplicate' in str(e).lower():
+            #if the phone number already exists, return the existing customer id
+            cursor.execute("SELECT CustomerID FROM Customers WHERE Phone = %s", (phone,))
+            existing_customer = cursor.fetchone()
+            customer_id = existing_customer[0] if existing_customer else None
+    finally:
+        cursor.close()
+        conn.close()
+    return customer_id, None
         
 def get_customer_by_id(customer_id):
     try:

@@ -14,6 +14,9 @@ def handle_get_customers(request_handler):
         elif customer:
             request_handler.send_response(200)
             request_handler.send_header('Content-type', 'application/json')
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.end_headers()
             response = json.dumps(customer).encode()
         else:
@@ -30,6 +33,9 @@ def handle_get_customers(request_handler):
         else:
             request_handler.send_response(200)
             request_handler.send_header('Content-type', 'application/json')
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.end_headers()
             response = json.dumps(records).encode()
     request_handler.wfile.write(response)
@@ -43,7 +49,7 @@ def handle_post_customers(request_handler):
     name = data.get('name')
     email = data.get('email')
     phone = data.get('phone')
-    if name is not None and email is not None and phone is not None:
+    if name is not None and phone is not None:
         customer_id, error = insert_customer(name, email,phone)
         if error:
             request_handler.send_response(500)
@@ -52,6 +58,9 @@ def handle_post_customers(request_handler):
         else:
             request_handler.send_response(200)
             request_handler.send_header('Content-type', 'application/json')
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.end_headers()
             response = json.dumps({"message": "Customer inserted successfully", "CustomerID": customer_id}).encode()
     else:
@@ -80,6 +89,9 @@ def handle_put_customers(request_handler):
         else:
             request_handler.send_response(200)
             request_handler.send_header('Content-type', 'application/json')
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.end_headers()
             response = json.dumps({"message": "Customer updated successfully"}).encode()
     else:

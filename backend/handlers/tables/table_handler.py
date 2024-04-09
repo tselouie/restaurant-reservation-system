@@ -1,11 +1,11 @@
 # handlers/tables_handler.py
-from db.db_connector import get_tables, insert_table, get_table_by_id,update_table_by_id,delete_table_by_id
+from db.db_connector import get_tables, insert_table, get_table_by_id,update_table_by_id,delete_table_by_id,get_available_tables
 import json
-
+from urllib.parse import urlparse, parse_qs
 def handle_get_tables(request_handler):
     last_parameter = request_handler.path.split("/")[-1]  # Obtain last parameter
-
-    if last_parameter and last_parameter.isdigit() and last_parameter != 'tables':
+    print(last_parameter)
+    if last_parameter and last_parameter.isdigit() and last_parameter != 'tables' and last_parameter != 'available':
         table, error = get_table_by_id(last_parameter)
         if error:
             request_handler.send_response(500)
@@ -20,6 +20,30 @@ def handle_get_tables(request_handler):
             request_handler.send_response(404)
             request_handler.end_headers()
             response = json.dumps({"error": "Table not found"}).encode()
+    elif last_parameter.startswith('available'):
+        print('did i get here')
+        parsed_url = urlparse(request_handler.path)
+        query_params = parse_qs(parsed_url.query)
+
+        # Extract 'capacity' and 'date' from query parameters if they exist
+        capacity = query_params.get('guests', [None])[0]
+        date = query_params.get('date', [None])[0]
+        time = query_params.get('time', [None])[0]
+        # Get all available tables
+        records, error = get_available_tables(capacity,date,time)
+        if error:
+            request_handler.send_response(500)
+            request_handler.end_headers()
+            response = json.dumps({"error": error}).encode()
+        else:
+            # available_tables = [table for table in records if table['Status'] == 'Available']
+            request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
+            request_handler.send_header('Content-type', 'application/json')
+            request_handler.end_headers()
+            response = json.dumps(records).encode()
     else:
         # Get all records
         records, error = get_tables()
@@ -29,6 +53,9 @@ def handle_get_tables(request_handler):
             response = json.dumps({"error": error}).encode()
         else:
             request_handler.send_response(200)
+            request_handler.send_header('Access-Control-Allow-Origin', '*')
+            request_handler.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+            request_handler.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
             request_handler.send_header('Content-type', 'application/json')
             request_handler.end_headers()
             response = json.dumps(records).encode()
