@@ -47,7 +47,9 @@ export default function ReservationsPage() {
   };
   const handleClose = () => setOpen(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
 
   // Function to round minutes to the nearest 30
   const getNowRoundedto30 = () => {
@@ -71,8 +73,8 @@ export default function ReservationsPage() {
   const handleSelectedTable = (table) => {
     setSelectedTable(table);
   };
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
   };
   const handleTimeChange = (time) => {
     setSelectedTime(time);
@@ -104,7 +106,8 @@ export default function ReservationsPage() {
       guestsRounded = 8;
     }
 
-    const date = selectedDate.format("YYYY-MM-DD");
+    const date = selectedDate;
+    console.log("date", date);
     const time = selectedTime.format("HH:mm:ss");
     setSelectedTable(null);
     await fetch(
@@ -180,10 +183,7 @@ export default function ReservationsPage() {
     const newReservation = {
       customer_id: CustomerID,
       table_id: selectedTable,
-      date_time:
-        selectedDate.format("YYYY-MM-DD") +
-        " " +
-        selectedTime.format("HH:mm:ss"),
+      date_time: selectedDate + " " + selectedTime.format("HH:mm:ss"),
       guests: formData.guests,
       special_requests: formData.specialRequests,
     };
@@ -309,7 +309,7 @@ export default function ReservationsPage() {
                   name="date"
                   type="date"
                   InputLabelProps={{ shrink: true }}
-                  value={selectedDate.format("YYYY-MM-DD")} // Format the date as "YYYY-MM-DD"
+                  value={selectedDate} // Format the date as "YYYY-MM-DD"
                   onChange={handleDateChange}
                 />
               </Grid>
@@ -342,7 +342,7 @@ export default function ReservationsPage() {
             {selectedTable ? (
               <Typography>
                 Reservation for {formData.guests} on &nbsp;
-                {selectedDate.format("YYYY-MM-DD")}&nbsp;@&nbsp;
+                {selectedDate}&nbsp;@&nbsp;
                 {selectedTime.format("HH:mm")}
               </Typography>
             ) : null}
