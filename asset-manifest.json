@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/restaurant-reservation-system/static/css/main.bf08c07e.css",
-    "main.js": "/restaurant-reservation-system/static/js/main.1ad0b75a.js",
+    "main.js": "/restaurant-reservation-system/static/js/main.c7ba859c.js",
     "static/js/453.d1325638.chunk.js": "/restaurant-reservation-system/static/js/453.d1325638.chunk.js",
     "index.html": "/restaurant-reservation-system/index.html",
     "main.bf08c07e.css.map": "/restaurant-reservation-system/static/css/main.bf08c07e.css.map",
-    "main.1ad0b75a.js.map": "/restaurant-reservation-system/static/js/main.1ad0b75a.js.map",
+    "main.c7ba859c.js.map": "/restaurant-reservation-system/static/js/main.c7ba859c.js.map",
     "453.d1325638.chunk.js.map": "/restaurant-reservation-system/static/js/453.d1325638.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bf08c07e.css",
-    "static/js/main.1ad0b75a.js"
+    "static/js/main.c7ba859c.js"
   ]
 }
