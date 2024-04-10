@@ -5,14 +5,7 @@ import Layout from "./Layout";
 import Dashboard from "./dashboard/Dashboard";
 import ReservationPage from "./dashboard/ReservationPage";
 import UsersPage from "./dashboard/UsersPage";
-import {
-  Routes,
-  Route,
-  createHashRouter,
-  RouterProvider,
-  HashRouter,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
@@ -35,12 +28,6 @@ function Copyright(props) {
   );
 }
 
-const router = createHashRouter([
-  { path: "/", element: <Dashboard /> },
-  { path: "/dashboard", element: <Dashboard /> },
-  { path: "/reservations", element: <ReservationPage /> },
-  { path: "/customers", element: <UsersPage /> },
-]);
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -51,13 +38,14 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <Layout open={open} toggleDrawer={toggleDrawer}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          {/* <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/reservations" element={<ReservationPage />} />
-            <Route path="/customers" element={<UsersPage />} />
-          </Routes> */}
-          <RouterProvider router={router} />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/reservations" element={<ReservationPage />} />
+              <Route path="/customers" element={<UsersPage />} />
+            </Routes>
+          </Router>
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Layout>
