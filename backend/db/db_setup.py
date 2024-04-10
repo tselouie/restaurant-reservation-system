@@ -36,12 +36,6 @@ def db_init():
                 if command.strip():  # Checking if command is not empty
                     cursor.execute(command)
 
-            # # Insert Seeded data that have relations to users
-            # with open('db_seed.sql', 'r') as seed_file:
-            #     seed_data_commands = seed_file.read().split(';') 
-            # for insert_query in seed_data_commands:
-            #     if insert_query.strip():  
-            #         cursor.execute(insert_query)
             conn.commit()
             print("Database initialized.")
         else:

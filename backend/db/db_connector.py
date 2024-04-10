@@ -9,7 +9,6 @@ def get_tables():
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM Tables")
         records = cursor.fetchall()
-        print(records)
         cursor.close()
         conn.close()
         return records, None
@@ -21,8 +20,6 @@ def get_available_tables(capacity, date,time):
         conn = db_connection()
         cursor = conn.cursor(dictionary=True)
         date_time = date + ' ' + time
-        print('date_time',date_time)
-        print('capacity',capacity)
         query ="""
             SELECT t.*
             FROM Tables AS t
@@ -39,9 +36,6 @@ def get_available_tables(capacity, date,time):
         """
         cursor.execute(query,(date_time, capacity,date_time,date_time))
         records = cursor.fetchall()
-        print(query)
-        print('records')
-        print(records)
         cursor.close()
         conn.close()
         return records, None
@@ -65,7 +59,6 @@ def insert_table(table_number, capacity):
         
 def get_table_by_id(table_id):
     try:
-        print('get_table_by_id',table_id)
         conn = db_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Tables WHERE TableID = %s LIMIT 1", (table_id,))
@@ -236,7 +229,6 @@ def get_customer_by_id(customer_id):
         return None, str(e)
 
 def update_customer_by_id(customer_id, name, email, phone):
-    print('in update customer by id')
     try:
         conn = db_connection()
         cursor = conn.cursor()

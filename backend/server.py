@@ -128,7 +128,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
         self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
         self.end_headers()
-        # self.processRequest()
 
 
 def run(serverClass=HTTPServer, handlerClass=RequestHandler, port=8010):

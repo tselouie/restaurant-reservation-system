@@ -4,7 +4,6 @@ import json
 from urllib.parse import urlparse, parse_qs
 def handle_get_tables(request_handler):
     last_parameter = request_handler.path.split("/")[-1]  # Obtain last parameter
-    print(last_parameter)
     if last_parameter and last_parameter.isdigit() and last_parameter != 'tables' and last_parameter != 'available':
         table, error = get_table_by_id(last_parameter)
         if error:
@@ -21,7 +20,6 @@ def handle_get_tables(request_handler):
             request_handler.end_headers()
             response = json.dumps({"error": "Table not found"}).encode()
     elif last_parameter.startswith('available'):
-        print('did i get here')
         parsed_url = urlparse(request_handler.path)
         query_params = parse_qs(parsed_url.query)
 

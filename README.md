@@ -7,6 +7,13 @@ https://github.com/tselouie/restaurant-reservation-system
 
 docker build . -t reservation-api
 
+Use this command to create the database:
+
+```bash
+docker run --name {ContainerName} -p 3306:3306 -e MYSQL_ROOT_PASSWORD={Password} -e MYSQL_DATABASE={DatabaseName} -d mysql:latest
+```
+
+
 Go to Google Cloud Run -> Artifact Registry -> New Repository
 Install Gcloud CLI
 ```bash
@@ -15,7 +22,7 @@ gcloud auth login
 gcloud auth configure-docker northamerica-northeast2-docker.pkg.dev
 
 docker tag <local-tag> <repo-url>/<local-tag>
-docker tag reservation-api northamerica-northeast2-docker.pkg.dev/eezcommerce/reservation-system/reservation-api:latest
+docker tag reservation-api:v3 northamerica-northeast2-docker.pkg.dev/eezcommerce/reservation-system/reservation-api:v3
 docker push <repo-url> 
 ```
 
