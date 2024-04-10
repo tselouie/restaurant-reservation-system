@@ -9,6 +9,6 @@ load_dotenv()  # take environment variables from .env.
 def db_connection():
     return mysql.connector.connect(
         host=os.environ.get("DATABASE_URL"),
-        user="root",
+        user=os.environ.get("DATABASE_USER"),
         database=os.environ.get("DATABASE_NAME"),
         password=os.environ.get("DATABASE_PASSWORD"))
