@@ -1,47 +1,164 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  ButtonGroup,
+  Box,
+  Typography,
+  TextField,
+  Grid,
+} from "@mui/material";
 
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+export default function ReservationsPage() {
+  const [reservations, setReservations] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [tables, setTables] = useState([]);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
 
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/customers`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+        if (shouldRefetch) {
+          setShouldRefetch(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [shouldRefetch]);
 
-export default function Dashboard() {
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/tables`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTables(data);
+        if (shouldRefetch) {
+          setShouldRefetch(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [shouldRefetch]);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/reservations`)
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedData = data.map((reservation) => {
+          const dateTime = new Date(reservation.ReservationDateTime);
+          const date = dateTime.toLocaleDateString(); // Formats date as "MM/DD/YYYY" by default
+          const time = dateTime.toLocaleTimeString(); // Formats time as "HH:MM:SS AM/PM" by default
+          return {
+            ...reservation,
+            date,
+            time,
+          };
+        });
+        setReservations(updatedData);
+        if (shouldRefetch) {
+          setShouldRefetch(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [shouldRefetch]);
+
   return (
-    <Grid container spacing={3}>
-      {/* Chart */}
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 240,
-          }}
-        >
-          <Chart />
-        </Paper>
-      </Grid>
-      {/* Recent Deposits */}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 240,
-          }}
-        >
-          <Deposits />
-        </Paper>
-      </Grid>
-      {/* Recent Orders */}
-      <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-          <Orders />
-        </Paper>
-      </Grid>
-    </Grid>
+    <div>
+      <Typography variant="h4">Reservations</Typography>
+      <Box>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell>Guests</TableCell>
+                <TableCell>Special Requests</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {reservations.map((reservation) => (
+                <TableRow key={reservation.ReservationID}>
+                  <TableCell>{reservation.ReservationID}</TableCell>
+                  <TableCell>{reservation.CustomerID}</TableCell>
+                  <TableCell>{reservation.date}</TableCell>
+                  <TableCell>{reservation.time}</TableCell>
+                  <TableCell>{reservation.NumberOfGuests}</TableCell>
+                  <TableCell>{reservation.SpecialRequests}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <Box sx={{ my: 2 }}>
+        <Typography variant="h4">Customers</Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Customer ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone #</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.CustomerID}>
+                  <TableCell>{user.CustomerID}</TableCell>
+                  <TableCell>{user.Name}</TableCell>
+                  <TableCell>{user.Email}</TableCell>
+                  <TableCell>{user.Phone}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <Box sx={{ my: 2 }}>
+        <Typography variant="h4">Tables</Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Table ID</TableCell>
+                <TableCell>Table #</TableCell>
+                <TableCell>Capacity</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tables.map((table) => (
+                <TableRow key={table.TableID}>
+                  <TableCell>{table.TableID}</TableCell>
+                  <TableCell>{table.TableNumber}</TableCell>
+                  <TableCell>{table.Capacity}</TableCell>
+                  <TableCell>{table.Status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </div>
   );
 }

@@ -33,7 +33,7 @@ export default function UsersPage() {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    fetch("http://localhost:8010/customers")
+    fetch(`${process.env.REACT_APP_API_URL}/customers`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
@@ -55,7 +55,7 @@ export default function UsersPage() {
       phone: phone.value,
     };
 
-    fetch("http://localhost:8010/customers", {
+    fetch(`${process.env.REACT_APP_API_URL}/customers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

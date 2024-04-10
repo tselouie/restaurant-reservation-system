@@ -108,7 +108,7 @@ export default function ReservationsPage() {
     const time = selectedTime.format("HH:mm:ss");
     setSelectedTable(null);
     await fetch(
-      `http://localhost:8010/tables/available?guests=${guestsRounded}&date=${date}&time=${time}`,
+      `${process.env.REACT_APP_API_URL}/tables/available?guests=${guestsRounded}&date=${date}&time=${time}`,
       {
         method: "GET",
         headers: {
@@ -131,17 +131,17 @@ export default function ReservationsPage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8010/reservations")
+    fetch(`${process.env.REACT_APP_API_URL}/reservations`)
       .then((response) => response.json())
       .then((data) => {
         const updatedData = data.map((reservation) => {
           const dateTime = new Date(reservation.ReservationDateTime);
-          const date = dateTime.toLocaleDateString(); // Formats date as "MM/DD/YYYY" by default, adjust as needed
-          const time = dateTime.toLocaleTimeString(); // Formats time as "HH:MM:SS AM/PM" by default, adjust as needed
+          const date = dateTime.toLocaleDateString(); // Formats date as "MM/DD/YYYY" by default
+          const time = dateTime.toLocaleTimeString(); // Formats time as "HH:MM:SS AM/PM" by default
           return {
             ...reservation,
-            date, // Add the parsed date
-            time, // Add the parsed time
+            date,
+            time,
           };
         });
         setReservations(updatedData);
@@ -162,13 +162,16 @@ export default function ReservationsPage() {
       phone: phone.value,
     };
     // Create customer if doesn't exist. If it does exist get the customer ID by phone number
-    const { CustomerID } = await fetch("http://localhost:8010/customers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    })
+    const { CustomerID } = await fetch(
+      `${process.env.REACT_APP_API_URL}/customers`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         return data;
@@ -182,10 +185,11 @@ export default function ReservationsPage() {
         " " +
         selectedTime.format("HH:mm:ss"),
       guests: formData.guests,
+      special_requests: formData.specialRequests,
     };
     console.log(CustomerID, newReservation);
 
-    await fetch("http://localhost:8010/reservations", {
+    await fetch(`${process.env.REACT_APP_API_URL}/reservations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -317,7 +321,6 @@ export default function ReservationsPage() {
                     label="Select Time"
                     value={selectedTime}
                     onChange={handleTimeChange}
-                    // renderInput={(params) => <TextField {...params} />}
                     ampm={false} // Use 24-hour clock
                     minutesStep={30} // Interval of 30 minutes
                     minTime={dayjs().hour(12).minute(0)} // Minimum time set to 12:00 PM

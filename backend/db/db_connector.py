@@ -6,7 +6,7 @@ from db.connect import db_connection
 def get_tables():
     try:
         conn = db_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM Tables")
         records = cursor.fetchall()
         print(records)
