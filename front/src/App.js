@@ -38,7 +38,7 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <Layout open={open} toggleDrawer={toggleDrawer}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Router>
+          <Router basename="/restaurant-reservation-system">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
