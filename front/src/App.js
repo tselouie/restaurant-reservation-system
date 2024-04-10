@@ -5,7 +5,7 @@ import Layout from "./Layout";
 import Dashboard from "./dashboard/Dashboard";
 import ReservationPage from "./dashboard/ReservationPage";
 import UsersPage from "./dashboard/UsersPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
@@ -38,14 +38,14 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <Layout open={open} toggleDrawer={toggleDrawer}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Router basename="/restaurant-reservation-system">
+          <HashRouter>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/reservations" element={<ReservationPage />} />
               <Route path="/customers" element={<UsersPage />} />
             </Routes>
-          </Router>
+          </HashRouter>
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Layout>
