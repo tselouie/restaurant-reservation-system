@@ -38,11 +38,14 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <Layout open={open} toggleDrawer={toggleDrawer}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <HashRouter basename="/restaurant-reservation-system">
+          <HashRouter>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/reservations" element={<ReservationPage />} />
+              <Route
+                path="/restaurant-reservation-system/reservations"
+                element={<ReservationPage />}
+              />
               <Route path="/customers" element={<UsersPage />} />
             </Routes>
           </HashRouter>
