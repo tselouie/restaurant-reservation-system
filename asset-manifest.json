@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.bf08c07e.css",
-    "main.js": "/static/js/main.bd61c032.js",
-    "static/js/453.d1325638.chunk.js": "/static/js/453.d1325638.chunk.js",
-    "index.html": "/index.html",
-    "main.bf08c07e.css.map": "/static/css/main.bf08c07e.css.map",
-    "main.bd61c032.js.map": "/static/js/main.bd61c032.js.map",
-    "453.d1325638.chunk.js.map": "/static/js/453.d1325638.chunk.js.map"
+    "main.css": "/restaurant-reservation-system/front/static/css/main.bf08c07e.css",
+    "main.js": "/restaurant-reservation-system/front/static/js/main.9eb95d5a.js",
+    "static/js/453.d1325638.chunk.js": "/restaurant-reservation-system/front/static/js/453.d1325638.chunk.js",
+    "index.html": "/restaurant-reservation-system/front/index.html",
+    "main.bf08c07e.css.map": "/restaurant-reservation-system/front/static/css/main.bf08c07e.css.map",
+    "main.9eb95d5a.js.map": "/restaurant-reservation-system/front/static/js/main.9eb95d5a.js.map",
+    "453.d1325638.chunk.js.map": "/restaurant-reservation-system/front/static/js/453.d1325638.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bf08c07e.css",
-    "static/js/main.bd61c032.js"
+    "static/js/main.9eb95d5a.js"
   ]
 }
