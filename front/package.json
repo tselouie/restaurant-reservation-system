@@ -1,5 +1,6 @@
 {
   "name": "reservation-system",
+  "homepage": "https://tselouie.github.io/restaurant-reservation-system/front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
