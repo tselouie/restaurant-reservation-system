@@ -51,15 +51,13 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <Layout open={open} toggleDrawer={toggleDrawer}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <HashRouter>
-            {/* <Routes>
+          {/* <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/reservations" element={<ReservationPage />} />
             <Route path="/customers" element={<UsersPage />} />
           </Routes> */}
-            <RouterProvider router={router} />
-          </HashRouter>
+          <RouterProvider router={router} />
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Layout>
