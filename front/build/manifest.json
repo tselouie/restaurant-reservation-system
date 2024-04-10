@@ -1,6 +1,6 @@
 {
-  "short_name": "XYZ Reservation System",
-  "name": "A Restaurant Reservation System",
+  "short_name": "Reservation System",
+  "name": "Reservation System UI",
   "icons": [
     {
       "src": "favicon.ico",
